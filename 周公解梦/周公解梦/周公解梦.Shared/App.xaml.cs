@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -35,6 +36,7 @@ namespace 周公解梦
         /// </summary>
         public App()
         {
+
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
         }
@@ -45,8 +47,10 @@ namespace 周公解梦
         /// 将使用其他入口点。
         /// </summary>
         /// <param name="e">有关启动请求和过程的详细信息。</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            await VoiceCommandHelper.InstallVoiceCommandIfFirstLaunch();
+
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -132,6 +136,22 @@ namespace 周公解梦
 
             // TODO: 保存应用程序状态并停止任何后台活动
             deferral.Complete();
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            base.OnActivated(args);
+
+            if (args.Kind == ActivationKind.VoiceCommand)
+            {
+                VoiceCommandActivatedEventArgs voiceCommandArgs = args as VoiceCommandActivatedEventArgs;
+                VoiceCommandHelper.StartVoiceCommandArgs = voiceCommandArgs;
+
+                Frame rootFrame = new Frame();
+                rootFrame.Navigate(typeof(MainPage));
+                Window.Current.Content = rootFrame;
+                Window.Current.Activate();
+            }
         }
     }
 }

@@ -1,14 +1,93 @@
-﻿<Page
-    x:Class="周公解梦.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:周公解梦"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+﻿<Page x:Class="周公解梦.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:周公解梦"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <ResourceDictionary Source="StyleDictionary.xaml"></ResourceDictionary>
+    </Page.Resources>
 
-    <Grid>
-
+    <Grid Margin="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+        <Canvas>
+            <Button x:Name="FakeButton"
+                    Canvas.Left="-300"></Button>
+        </Canvas>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0"
+                   Source="Assets/dream.png"
+                   Stretch="None"
+                   Margin="0,10,0,10"
+                   x:Name="Img" />
+            <ListView Grid.Row="1"
+                      x:Name="Lv"
+                      ItemsSource="{Binding Path=Results}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="5"
+                                BorderBrush="Gray"
+                                BorderThickness="1"
+                                Margin="5"
+                                Padding="5">
+                            <TextBlock FontSize="{ThemeResource TextStyleExtraLargeFontSize}"
+                                       Text="{Binding}"
+                                       TextWrapping="Wrap"></TextBlock>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment"
+                                Value="Stretch"></Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+            <TextBlock Grid.Row="1"
+                       x:Name="Msg"
+                       HorizontalAlignment="Center"
+                       FontSize="{ThemeResource TextStyleExtraLargeFontSize}"
+                       Margin="0,20,0,0">
+                <TextBlock.Foreground>
+                    <LinearGradientBrush EndPoint="0.5,1"
+                                         StartPoint="0.5,0">
+                        <GradientStop Color="Red"
+                                      Offset="0" />
+                        <GradientStop Color="Gold"
+                                      Offset="1" />
+                    </LinearGradientBrush>
+                </TextBlock.Foreground>
+            </TextBlock>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0"
+                     PlaceholderText="询问周公"
+                     Style="{StaticResource SearchTextBox}"
+                     Height="60"
+                     Margin="0"
+                     x:Name="TxtSearch"
+                     KeyDown="UIElement_OnKeyDown">
+            </TextBox>
+            <Border Grid.Column="2"
+                    Width="60"
+                    Background="#383838"
+                    PointerReleased="UIElement_OnPointerReleased">
+                <SymbolIcon Symbol="Microphone" />
+            </Border>
+        </Grid>
     </Grid>
 </Page>
