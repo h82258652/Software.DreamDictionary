@@ -1,4 +1,4 @@
-Software.DreamDictionary
+SoftwareKobo.DreamDictionary
 ========================
 
 周公解梦
